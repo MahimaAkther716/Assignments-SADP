@@ -1,15 +1,18 @@
-import 'package:firstassignment/convertscreen.dart';
 import 'package:flutter/material.dart';
+import 'login_page.dart'; // Use this if your login code is now in login_page.dart
 
-void main() => runApp(TemperatureConverterApp());
+void main() {
+  runApp(MyApp());
+}
 
-class TemperatureConverterApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Celsius to Fahrenheit',
-      home: TemperatureConverter(),
       debugShowCheckedModeBanner: false,
+      title: 'First Assignment',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: LoginPage(),
     );
   }
 }
