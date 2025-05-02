@@ -1,115 +1,102 @@
 import 'package:flutter/material.dart';
 
-class TemperatureConverter extends StatefulWidget {
+class ConverterScreen extends StatefulWidget {
   @override
-  _TemperatureConverterState createState() => _TemperatureConverterState();
+  _ConverterScreenState createState() => _ConverterScreenState();
 }
 
-class _TemperatureConverterState extends State<TemperatureConverter> {
-  final TextEditingController _celsiusController = TextEditingController();
-  String _result = '';
+class _ConverterScreenState extends State<ConverterScreen> {
+  final TextEditingController _controller = TextEditingController();
+  double _result = 0;
 
   void _convert() {
-    final input = _celsiusController.text;
-    if (input.isEmpty) return;
-
-    final celsius = double.tryParse(input);
-    if (celsius == null) {
-      setState(() {
-        _result = 'Invalid input!';
-      });
-      return;
-    }
-
-    final fahrenheit = (celsius * 9 / 5) + 32;
-
     setState(() {
-      _result = '$celsius°C = ${fahrenheit.toStringAsFixed(2)}°F';
+      double celsius = double.tryParse(_controller.text) ?? 0;
+      _result = (celsius * 9 / 5) + 32;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Celsius to Fahrenheit'),
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+            colors: [Color(0xFFFCEFF9), Color(0xFFE0BBE4)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(24.0),
+            child: Card(
+              elevation: 10,
+              shadowColor: Colors.purpleAccent.withOpacity(0.3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Image.network(
+                      'https://cdn-icons-png.flaticon.com/512/481/481177.png',
+                      height: 100,
+                    ),
+                    SizedBox(height: 20),
                     Text(
-                      'Temperature Converter',
+                      "Convert Celsius to Fahrenheit",
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.deepPurple,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20),
                     TextField(
-                      controller: _celsiusController,
+                      controller: _controller,
                       keyboardType: TextInputType.number,
-                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintText: 'Enter Celsius',
-                        hintStyle: TextStyle(color: Colors.white70),
+                        labelText: 'Celsius',
+                        prefixIcon: Icon(Icons.thermostat_outlined),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
+                        fillColor: Colors.purple[50],
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        prefixIcon: Icon(Icons.thermostat, color: Colors.white),
                       ),
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _convert,
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 12,
-                        ),
-                        backgroundColor: Colors.white.withOpacity(0.3),
+                        backgroundColor: Colors.deepPurple,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 36,
+                          vertical: 14,
                         ),
-                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                      child: Text('Convert', style: TextStyle(fontSize: 18)),
+                      child: Text('Convert to °F'),
                     ),
                     SizedBox(height: 20),
                     Text(
-                      _result,
+                      'Result: ${_result.toStringAsFixed(2)} °F',
                       style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
                       ),
                     ),
                   ],

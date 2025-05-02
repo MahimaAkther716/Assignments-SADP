@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
-import 'converter_screen.dart';
+import 'option_screen.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
+class LoginScreen extends StatefulWidget {
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-
-    if (password.length >= 6) {
-      Navigator.push(
+    if (_usernameController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TemperatureConverter()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password must be at least 6 characters long')),
+        MaterialPageRoute(builder: (_) => OptionScreen()),
       );
     }
   }
@@ -34,90 +26,81 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+            colors: [Color(0xFFFFF1EB), Color(0xFFFFE3D8), Color(0xFFFDDDE6)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              elevation: 12,
+              shadowColor: Colors.pinkAccent.withOpacity(0.2),
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    Image.network(
+                      'https://cdn-icons-png.flaticon.com/512/3064/3064197.png',
+                      height: 100,
                     ),
                     SizedBox(height: 20),
+                    Text(
+                      "Welcome Back!",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    SizedBox(height: 16),
                     TextField(
                       controller: _usernameController,
-                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintText: 'Username',
-                        hintStyle: TextStyle(color: Colors.white70),
+                        labelText: 'Username',
+                        prefixIcon: Icon(Icons.person),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
+                        fillColor: Colors.purple[50],
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        prefixIcon: Icon(Icons.person, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 12),
                     TextField(
                       controller: _passwordController,
                       obscureText: true,
-                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.white70),
+                        labelText: 'Password',
+                        prefixIcon: Icon(Icons.lock),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
+                        fillColor: Colors.purple[50],
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        prefixIcon: Icon(Icons.lock, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 24),
                     ElevatedButton(
-                      onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 12,
-                        ),
-                        backgroundColor: Colors.white.withOpacity(0.3),
+                        backgroundColor: Colors.pinkAccent,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 14,
                         ),
-                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                      child: Text('Login', style: TextStyle(fontSize: 18)),
+                      onPressed: _login,
+                      child: Text('Login', style: TextStyle(fontSize: 16)),
                     ),
                   ],
                 ),
